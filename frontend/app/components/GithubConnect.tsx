@@ -1,0 +1,3 @@
+'use client'
+import{useEffect,useState}from'react'
+export default function GithubConnect(){const[user,setUser]=useState<any>();useEffect(()=>{const raw=new URLSearchParams(location.search).get('github_auth');if(raw){try{const d=JSON.parse(atob(raw.replace(/-/g,'+').replace(/_/g,'/')));setUser(d.user);localStorage.setItem('pitwall_github',JSON.stringify(d))}catch{}}else{try{setUser(JSON.parse(localStorage.getItem('pitwall_github')||'null')?.user)}catch{}}},[]);const base=process.env.NEXT_PUBLIC_API_URL||'';return user?<div className="oauth-user"><img src={user.avatar_url}/><span>{user.login}</span></div>:<a className="connect-github" href={`${base}/auth/github`}>Connect GitHub <span>↗</span></a>}
